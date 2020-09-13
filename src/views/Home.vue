@@ -1,6 +1,6 @@
 <template>
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-    <poke-thumbnail v-for="( val, idx) in Display" :key="idx" @click="clickevent(val.nid)" :nid="val.nid" :name="val.name" :types="val.type" />
+    <poke-thumbnail v-for="( val, idx) in Display" :key="idx" @click="clickevent(val)" :nid="val.nid" :name="val.name" :types="val.type" />
   </div>
 </template>
 
@@ -26,8 +26,8 @@ export default {
     }
   },
   methods: {
-    clickevent( param ){
-      this.$router.push({ name: "Pokemon", params : { param } })
+    clickevent( val ){
+      this.$router.push({ name: "Pokemon", params : { nid: val.nid } })
     }
   }
 }
