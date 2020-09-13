@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="mx-auto px-4">
+  <div id="app" class="mx-auto p-4 min-h-screen" style="background: #ff4ff40a;">
     <transition name="fade">
       <router-view/>
     </transition>

@@ -1,13 +1,12 @@
 <template>
-  <div class="flex flex-wrap justify-center">
-    <poke-thumbnail v-for="( val, idx) in list" :key="idx" @click="clickevent(val)">
-      {{ val }}
-    </poke-thumbnail>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+    <poke-thumbnail v-for="( val, idx) in Display" :key="idx" @click="clickevent(val.nid)" :nid="val.nid" :name="val.name" :types="val.type" />
   </div>
 </template>
 
 <script>
 import PokeThumbnail from "@/components/PokeThumbnail";
+import PokemonJSONData from "@/data/pokemon.json";
 export default {
   name: 'Home',
   components: {
@@ -15,17 +14,20 @@ export default {
   },
   data(){
     return {
-      alot: Array.apply(null, Array(800)).map(function (x, i) { return i; })
+      pokemons: Array.apply(null, Array(150)).map(function (x, i) { return i; })
     }
   },
+  mounted(){
+    this.pokemons = PokemonJSONData;
+  },
   computed : {
-    list(){
-      return this.alot.slice(0, 35)
+    Display(){
+      return this.pokemons.slice(0, 55)
     }
   },
   methods: {
     clickevent( param ){
-      this.$router.push({ name: "Detail", params : { param } })
+      this.$router.push({ name: "Pokemon", params : { param } })
     }
   }
 }
