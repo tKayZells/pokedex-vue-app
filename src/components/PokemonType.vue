@@ -1,5 +1,5 @@
 <template>
-    <div class="w-24 p-1 m-2 border rounded-md text-white" style="text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);" :style="`background: ${types[type].color}`">
+    <div class="w-24 p-1 m-2 border rounded-md text-white text-center" style="text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);" :style="`background: ${types[type].color}`">
         {{ type }}
     </div>
 </template>
