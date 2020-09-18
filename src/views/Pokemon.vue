@@ -4,15 +4,17 @@
     <div class="p-4 w-full xl:w-1/3 md:w-2/3 sm:w-full">
         <h1 class="text-4xl my-4 xl:text-left sm:text-center uppercase">{{ pokemon.species.name }}</h1>
 
-        <button>UP</button>
+        <div class="flex items-center ">
+          <font-awesome-icon class="animate-pulse" icon="caret-left" size="2x" />
+          
+          <!-- Regular Info -->
+          <pokemon-info class="hidden flex-1" :flavor="pokemonSpecies.flavor_text_entries" :ability="pokemon.abilities" :type="pokemon.types" :height="pokemon.height" :weight="pokemon.weight" />
 
-        <!-- Regular Info -->
-        <pokemon-info class="hidden" :flavor="pokemonSpecies.flavor_text_entries" :ability="pokemon.abilities" :type="pokemon.types" :height="pokemon.height" :weight="pokemon.weight" />
+          <!-- STATS -->
+          <pokemon-stats class="flex-1" :base="pokemon.stats" />
 
-        <!-- STATS -->
-        <pokemon-stats :base="pokemon.stats" />
-
-        <button>DOWN</button>
+          <font-awesome-icon class="animate-pulse" icon="caret-right" size="2x" />
+        </div>
         <!-- <p class="text-gray-600 text-opacity-25 text-6xl absolute" style="top:10px; left:20%">{{ nid }}</p> -->
     </div>
     <div class="p-4 xl:w-1/2 md:w-2/3 sm:w-2/3">
@@ -22,6 +24,7 @@
   </div>
 </div>
 </template>
+
 <script>
 import PokemonInfo from "@/components/PokemonInfo";
 import PokemonStats from "@/components/PokemonStats";
