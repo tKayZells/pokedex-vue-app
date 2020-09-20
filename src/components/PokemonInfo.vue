@@ -24,7 +24,7 @@
         <div class="grid grid-cols-3 gap-8 xl:p-5 md:py-4 py-2">
             <div class="text-right font-semibold">Abilities</div>
             <div class="text-left capitalize col-span-2">
-                <p v-for="(ab, i) in ability" :key="i">{{ ab.ability.name }}</p>
+                <p v-for="(ab, i) in ability" :key="i">{{ ab.ability.name | DashRemoval }}</p>
             </div>
         </div>
     </div>
@@ -37,6 +37,11 @@ export default {
     components: { PokemonType, Modal },
     name: "PokemonInfo",
     props: [ "flavor", "ability", "type", "height", "weight", "genera" ],
+    filters : {
+        DashRemoval( val ){
+        return val.replaceAll("-", " ")
+        }
+    },
     data(){
         return {
             isOpen: false
@@ -57,7 +62,7 @@ export default {
         flavor_en(){
             return !this.flavor ? 
                     "" : 
-                    this.flavor.filter( i => i.language.name == "en" && i.version.name == "alpha-sapphire" )[0].flavor_text
+                    this.flavor.filter( i => i.language.name == "en" ).slice(-1)[0].flavor_text
         },
         genera_en(){
             return !this.genera ? 

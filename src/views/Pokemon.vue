@@ -33,8 +33,15 @@
         </div>
         <!-- <p class="text-gray-600 text-opacity-25 text-6xl absolute" style="top:10px; left:20%">{{ nid }}</p> -->
     </div>
-    <div class="p-4 xl:w-1/2 md:w-2/3 sm:w-2/3">
+    <div class="p-4 xl:w-1/2 md:w-2/3 sm:w-2/3 relative">
       <img :src="ImageURL" :alt="`${nid} image`">
+      <div class="flex flex-wrap justify-start w-full" style="margin-top: -15%">
+        <div class="m-2" v-for="(val, i) in pokemonForms" :key="i">
+          <a @click="ChangeForm(i)" :class="{ 'text-red-600 border-red-600' : selectedForm == i }" class="cursor-pointer px-3 py-2 mx-2 border-solid border rounded-md bg-white text-sm capitalize">
+            {{ val.name | DashRemoval }}
+          </a>
+        </div>
+      </div>
     </div>
     <!-- <button @click="$router.go(-1)" > go back </button> -->
   </div>
@@ -65,12 +72,18 @@ export default {
   mounted() {
     this.Load();
   },
+  filters : {
+    DashRemoval( val ){
+      return val.replaceAll("-", " ")
+    }
+  },
   data(){
     return {
       currentPanel: 0,
       pokemon : {},
       pokemonSpecies : {},
-      pokemonForms : []
+      pokemonForms : [],
+      selectedForm : 0
     }
   },
   methods: {
@@ -96,7 +109,9 @@ export default {
             if(forms.length < 6){
               const regexp = /(\d+)\/$/;
               let formid = forms.map( i => i.pokemon.url.match(regexp)[1])
-              this.LoadForm(formid);
+              if(formid.length > 0 && formid.length < 6){
+                this.LoadForm(formid);
+              }
             }
              
           })
@@ -108,31 +123,44 @@ export default {
         for(let i = 0; i < forms.length; i++){
           arr.push(this.PokeApi.getPokemonByName(forms[i]))
         }
-        
         Promise.all(arr).then( values => {
+          this.pokemonForms.push(this.pokemon)
           values.forEach( (v) => {
             this.pokemonForms.push(v)
           })
         })
-
+      },
+      ChangeForm( index ) {
+        this.selectedForm = index;
+        this.pokemon = this.pokemonForms[ index ];
       }
   },
   computed : {
       ImageURL(){
-          return `${process.env.VUE_APP_POKE_ASSET_URL}/images/${ this.Pad( this.nid )}.png`
-      },
-      AltForms(){
-          var forms = {}
-          // empty?
-          if( Object.keys(this.pokemonSpecies).length !== 0 && this.pokemonSpecies.constructor === Object)
-          {
-            // has maximum 6 forms (Pikachu has 14 dif versions, we are excluding those)
-            if( this.pokemonSpecies.varieties.length > 0 && this.pokemonSpecies.varieties.length < 6){
-              return ""
-            }
+          let imgResource = this.Pad( this.nid );
+          if(this.selectedForm != 0){
+            const capitalize = (str, lower = false) =>
+              (lower ? str.toLowerCase() : str).replace(/(?:^|\s|["'([{])+\S/g, match => match.toUpperCase());
+            let formImg = capitalize( this.pokemonForms[this.selectedForm].name.match(/-\D+/)[0].replaceAll("-", " ") ).replaceAll(" ", "-");
+            imgResource += formImg
           }
+          return `${process.env.VUE_APP_POKE_ASSET_URL}/images/${ imgResource }.png`
+      },
+      AltFormsImgs(){
+          let imgResource = this.Pad( this.nid );
+          let imgurls = []
+
+          const capitalize = (str, lower = false) =>
+            (lower ? str.toLowerCase() : str).replace(/(?:^|\s|["'([{])+\S/g, match => match.toUpperCase());
+
+          this.pokemonForms.forEach((element, idx) => {
+            if(idx == 0) return;
+            let formImg = capitalize( element.name.match(/-\D+/)[0].replaceAll("-", " ") ).replaceAll(" ", "-");
+            imgResource += formImg
+            imgurls.push(`${process.env.VUE_APP_POKE_ASSET_URL}/images/${ imgResource }.png`);
+          });
           
-          return forms;
+          return imgurls;
       }
   }   
 }
