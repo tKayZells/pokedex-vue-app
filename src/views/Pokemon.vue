@@ -2,18 +2,34 @@
 <div class="h-screen">
   <div class="m-auto xl:h-screen flex flex-wrap flex-col sm:flex-row justify-center items-center">
     <div class="p-4 w-full xl:w-1/3 md:w-2/3 sm:w-full">
-        <h1 class="text-4xl my-4 xl:text-left sm:text-center uppercase">{{ pokemon.species.name }}</h1>
+        <h1 class="text-4xl mb-1 xl:text-center sm:text-center uppercase">{{ pokemon.species.name }}</h1>
 
-        <div class="flex items-center ">
-          <font-awesome-icon class="animate-pulse" icon="caret-left" size="2x" />
-          
-          <!-- Regular Info -->
-          <pokemon-info class="hidden flex-1" :flavor="pokemonSpecies.flavor_text_entries" :ability="pokemon.abilities" :type="pokemon.types" :height="pokemon.height" :weight="pokemon.weight" />
+        <div class="items-center ">
 
-          <!-- STATS -->
-          <pokemon-stats class="flex-1" :base="pokemon.stats" />
+          <div class="w-full">
+            <!-- Regular Info -->
+            <transition name="slide-fade" mode="out-in">
+              <pokemon-info v-if="currentPanel == 0" 
+                :flavor="pokemonSpecies.flavor_text_entries" 
+                :ability="pokemon.abilities" 
+                :type="pokemon.types" 
+                :genera="pokemonSpecies.genera"
+                :height="pokemon.height" 
+                :weight="pokemon.weight" />
 
-          <font-awesome-icon class="animate-pulse" icon="caret-right" size="2x" />
+              <!-- STATS -->
+              <pokemon-stats v-else :base="pokemon.stats" />
+            </transition>
+
+          </div>
+
+          <div class="flex justify-around mt-1 xl:mt-8 relative">
+            <font-awesome-icon @click="currentPanel = 0" 
+                :class="[currentPanel == 1 ? 'text-black cursor-pointer animate-bounce' : 'text-gray-400']" icon="caret-left" size="2x" />
+                
+            <font-awesome-icon @click="currentPanel = 1"
+              :class="[currentPanel == 0 ? 'text-black cursor-pointer animate-bounce' : 'text-gray-400']" icon="caret-right" size="2x" />
+          </div>
         </div>
         <!-- <p class="text-gray-600 text-opacity-25 text-6xl absolute" style="top:10px; left:20%">{{ nid }}</p> -->
     </div>
@@ -24,7 +40,21 @@
   </div>
 </div>
 </template>
-
+<style scoped>
+/* Enter and leave animations can use different */
+/* durations and timing functions.              */
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
+}
+</style>
 <script>
 import PokemonInfo from "@/components/PokemonInfo";
 import PokemonStats from "@/components/PokemonStats";
@@ -37,8 +67,10 @@ export default {
   },
   data(){
     return {
+      currentPanel: 0,
       pokemon : {},
-      pokemonSpecies : {}
+      pokemonSpecies : {},
+      pokemonForms : []
     }
   },
   methods: {
@@ -54,21 +86,53 @@ export default {
           .then( ( result ) => {
             this.pokemon = result;
           })
-          .finally( () => {
-            console.log("completed")
-          })
+          .finally( () => {  })
         this.PokeApi.getPokemonSpeciesByName( this.nid )
           .then( ( result ) => {
             this.pokemonSpecies = result;
+            return this.pokemonSpecies.varieties.filter( i => !i.is_default)
           })
-          .finally( () => {
-            console.log("completed")
+          .then( (forms) => {
+            if(forms.length < 6){
+              const regexp = /(\d+)\/$/;
+              let formid = forms.map( i => i.pokemon.url.match(regexp)[1])
+              this.LoadForm(formid);
+            }
+             
           })
+          .finally( () => { })
+      },
+      LoadForm( forms ){
+        let arr = []
+        
+        for(let i = 0; i < forms.length; i++){
+          arr.push(this.PokeApi.getPokemonByName(forms[i]))
+        }
+        
+        Promise.all(arr).then( values => {
+          values.forEach( (v) => {
+            this.pokemonForms.push(v)
+          })
+        })
+
       }
   },
   computed : {
       ImageURL(){
           return `${process.env.VUE_APP_POKE_ASSET_URL}/images/${ this.Pad( this.nid )}.png`
+      },
+      AltForms(){
+          var forms = {}
+          // empty?
+          if( Object.keys(this.pokemonSpecies).length !== 0 && this.pokemonSpecies.constructor === Object)
+          {
+            // has maximum 6 forms (Pikachu has 14 dif versions, we are excluding those)
+            if( this.pokemonSpecies.varieties.length > 0 && this.pokemonSpecies.varieties.length < 6){
+              return ""
+            }
+          }
+          
+          return forms;
       }
   }   
 }
