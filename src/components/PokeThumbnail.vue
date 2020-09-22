@@ -1,7 +1,8 @@
 <template>
-    <div class="p-3 bg-white rounded-md cursor-pointer border hover:shadow-md" @click="$emit('click')"> 
-        <h2 class="text-lg mb-4 capitalize">{{ name }}</h2>
-        <img v-lazyload class="h-32 w-32 mx-auto" :data-url="ImageURL" :alt="`${name} image`">
+    <div class="p-3 bg-white rounded-md cursor-pointer border hover:shadow-md relative" @click="$emit('click')"> 
+        <h2 class="absolute text-2xl">#{{ this.nid }}</h2>
+        <h2 class="text-sm xl:text-sm md:text-base sm:text-base mb-4 capitalize text-right">{{ name }}</h2>
+        <img v-lazyload class="h-20 w-20 mx-auto" :data-url="ImageURL" :alt="`${name} image`">
         <div class="flex justify-center mt-4">
             <pokemon-type v-for="(t, idx) in types" :key="idx" :type="t" />
         </div>

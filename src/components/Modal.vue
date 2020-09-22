@@ -1,6 +1,6 @@
 <template>
 <div :class="[ isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none']" class="modal opacity-0 absolute w-full h-full top-0 left-0 flex items-center justify-center">
-  <div @click="Close" class="modal-overlay absolute w-full h-full bg-black opacity-25 top-0 left-0 cursor-pointer"></div>
+  <div @click="Close" class="modal-overlay absolute w-full h-screen bg-black opacity-25 top-0 left-0 cursor-pointer"></div>
   <div class="absolute w-3/4 bg-white rounded-md shadow-lg py-4 text-left px-6 z-50" style="z-index: 50 !important;">
     <div class="flex justify-between items-center pb-3">
         <p class="text-2xl font-bold">Pokedex Entry</p>

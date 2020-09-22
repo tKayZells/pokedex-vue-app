@@ -1,8 +1,8 @@
 <template>
-<div class="h-screen">
-  <div class="m-auto xl:h-screen flex flex-wrap flex-col sm:flex-row justify-center items-center">
-    <div class="p-4 w-full xl:w-1/3 md:w-2/3 sm:w-full">
-        <h1 class="text-4xl mb-1 xl:text-center sm:text-center uppercase">{{ pokemon.species.name }}</h1>
+<div style="overflow:hidden;">
+  <div class="m-auto flex xl:h-screen flex-wrap flex-col sm:flex-row justify-center items-center">
+    <div class="p-4 w-full xl:w-1/3 md:w-2/3 sm:w-full relative">
+        <h1 class="text-2xl mb-1 xl:text-center sm:text-center uppercase">{{ pokemon.name | DashRemoval }}</h1>
 
         <div class="items-center ">
 
@@ -23,7 +23,7 @@
 
           </div>
 
-          <div class="flex justify-around mt-1 xl:mt-8 relative">
+          <div class="flex justify-between w-full left-0 absolute" style="top: 150px">
             <font-awesome-icon @click="currentPanel = 0" 
                 :class="[currentPanel == 1 ? 'text-black cursor-pointer animate-bounce' : 'text-gray-400']" icon="caret-left" size="2x" />
                 
@@ -34,14 +34,14 @@
         <!-- <p class="text-gray-600 text-opacity-25 text-6xl absolute" style="top:10px; left:20%">{{ nid }}</p> -->
     </div>
     <div class="p-4 xl:w-1/2 md:w-2/3 sm:w-2/3 relative">
-      <img :src="ImageURL" :alt="`${nid} image`">
-      <div class="flex flex-wrap justify-start w-full" style="margin-top: -15%">
+      <div class="flex flex-wrap justify-center flex-row" >
         <div class="m-2" v-for="(val, i) in pokemonForms" :key="i">
-          <a @click="ChangeForm(i)" :class="{ 'text-red-600 border-red-600' : selectedForm == i }" class="cursor-pointer px-3 py-2 mx-2 border-solid border rounded-md bg-white text-sm capitalize">
-            {{ val.name | DashRemoval }}
+          <a @click="ChangeForm(i)" :class="{ 'text-red-600 border-red-600' : selectedForm == i }" class="cursor-pointer px-2 py-1 mx-1 border-solid border rounded-md bg-white text-sm capitalize">
+            {{ val.name | DashRemoval | RemoveBaseName(pokemon.species.name) }}
           </a>
         </div>
       </div>
+      <img class="m-auto xl:min-h-fixed-880 xl:min-w-fixed-880 md:min-h-fixed-440 md:min-w-fixed-440 sm:h-64 sm:w-64" :src="ImageURL" :alt="`${nid} image`">      
     </div>
     <!-- <button @click="$router.go(-1)" > go back </button> -->
   </div>
@@ -75,6 +75,12 @@ export default {
   filters : {
     DashRemoval( val ){
       return val.replaceAll("-", " ")
+    },
+    RemoveBaseName( val, arg ){
+      console.log(arg);
+      if(val.toLocaleLowerCase() == arg)
+        return val
+      return val.replace(arg, "");
     }
   },
   data(){
@@ -139,9 +145,10 @@ export default {
       ImageURL(){
           let imgResource = this.Pad( this.nid );
           if(this.selectedForm != 0){
-            const capitalize = (str, lower = false) =>
-              (lower ? str.toLowerCase() : str).replace(/(?:^|\s|["'([{])+\S/g, match => match.toUpperCase());
-            let formImg = capitalize( this.pokemonForms[this.selectedForm].name.match(/-\D+/)[0].replaceAll("-", " ") ).replaceAll(" ", "-");
+
+            const capitalize = (str ) => (str.split('-').map(e=>e.charAt(0).toUpperCase() + e.slice(1))).join('-');
+            
+            let formImg = capitalize( this.pokemonForms[this.selectedForm].name.substr( this.pokemonForms[this.selectedForm].name.indexOf('-') ));
             imgResource += formImg
           }
           return `${process.env.VUE_APP_POKE_ASSET_URL}/images/${ imgResource }.png`
@@ -155,7 +162,7 @@ export default {
 
           this.pokemonForms.forEach((element, idx) => {
             if(idx == 0) return;
-            let formImg = capitalize( element.name.match(/-\D+/)[0].replaceAll("-", " ") ).replaceAll(" ", "-");
+            let formImg = capitalize( element.name.substr( element.name.indexOf('-') ) );
             imgResource += formImg
             imgurls.push(`${process.env.VUE_APP_POKE_ASSET_URL}/images/${ imgResource }.png`);
           });

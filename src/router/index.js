@@ -5,13 +5,17 @@ import Home from '../views/Home.vue'
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
+  { 
+    path: '/', 
+    redirect: { name: 'Home' }
   },
   {
-    path: '/pokemon/:nid',
+    path: '/dex',
+    name: 'Home',
+    component: Home,
+  },
+  {
+    path: '/dex/:nid',
     props: route => ({ nid: route.params.nid }),
     name: 'Pokemon',
     component: () => import(/* webpackChunkName: "about" */ '../views/Pokemon.vue')
