@@ -1,7 +1,8 @@
 <template>
-  <div id="app" class="mx-auto p-4 h-screen" style="">
+  <div id="app" class="mx-auto h-screen" style="">
+    <nav-bar />
     <transition name="fade">
-      <router-view/>
+      <router-view class="p-4 mt-20" />
     </transition>
   </div>
 </template>
@@ -34,3 +35,11 @@
   opacity: 0;
 }
 </style>
+<script>
+import NavBar from "@/components/NavBar";
+export default {
+  components : {
+    NavBar
+  }
+}
+</script>

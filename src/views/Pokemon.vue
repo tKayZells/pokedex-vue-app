@@ -2,7 +2,7 @@
 <div style="overflow:hidden;">
   <div class="m-auto flex xl:h-screen flex-wrap flex-col sm:flex-row justify-center items-center">
     <div class="p-4 w-full xl:w-1/3 md:w-2/3 sm:w-full relative">
-        <h1 class="text-2xl mb-1 xl:text-center sm:text-center uppercase">{{ pokemon.name | DashRemoval }}</h1>
+        <h1 class="text-2xl lg:text-4xl xl:text-4xl md:text-3xl mb-1 xl:text-center sm:text-center uppercase">{{ pokemon.name | DashRemoval }}</h1>
 
         <div class="items-center ">
 

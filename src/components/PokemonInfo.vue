@@ -24,7 +24,7 @@
         <div class="grid grid-cols-3 gap-8 xl:p-5 md:py-4 py-2">
             <div class="text-right font-semibold">Abilities</div>
             <div class="text-center capitalize col-span-2 flex justify-start">
-                <p :class="{'flex-1' : ability.length != 1}" v-for="(ab, i) in ability" :key="i">{{ ab.ability.name | DashRemoval }}</p>
+                <p :class="{'flex-1' : ability.length != 1}" class="text-left" v-for="(ab, i) in ability" :key="i">{{ ab.ability.name | DashRemoval }}</p>
             </div>
         </div>
     </div>

@@ -3,7 +3,8 @@ import {
     faCaretDown,
     faCaretLeft,
     faCaretRight,
-    faCaretUp
+    faCaretUp,
+    faArrowLeft
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -11,7 +12,8 @@ library.add(
     faCaretDown,
     faCaretLeft,
     faCaretRight,
-    faCaretUp
+    faCaretUp,
+    faArrowLeft
 )
 
 export default FontAwesomeIcon
