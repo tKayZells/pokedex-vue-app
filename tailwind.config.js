@@ -1,9 +1,17 @@
 module.exports = {
   purge: [],
   theme: {
-    extend: {},
+    extend: {
+      inset : {
+        '4' : '4.2rem',
+        '8' : '7rem'
+      }
+    },
     zIndex: {
       '-10': '-10',
+    },
+    height : {
+      '128': '32rem'
     },
     minWidth: {
       'fixed-880': '880px',
@@ -12,7 +20,7 @@ module.exports = {
     minHeight: {
       'fixed-880': '880px',
       'fixed-440': '440px',
-    }
+    },
   },
   variants: {},
   plugins: [],

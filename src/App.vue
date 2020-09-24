@@ -2,7 +2,7 @@
   <div id="app" class="mx-auto h-screen" style="">
     <nav-bar />
     <transition name="fade">
-      <router-view class="p-4 mt-20" />
+      <router-view class="p-4 xl:mt-20 lg:mt-20 md:mt-20 mt-32 " />
     </transition>
   </div>
 </template>
