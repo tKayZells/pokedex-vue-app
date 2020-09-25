@@ -77,7 +77,6 @@ export default {
       return val.replaceAll("-", " ")
     },
     RemoveBaseName( val, arg ){
-      console.log(arg);
       if(val.toLocaleLowerCase() == arg)
         return val
       return val.replace(arg, "");
@@ -90,6 +89,14 @@ export default {
       pokemonSpecies : {},
       pokemonForms : [],
       selectedForm : 0
+    }
+  },
+  watch: {
+    nid(){
+      this.selectedForm = 0
+      this.currentPanel = 0
+      this.pokemonForms = []
+      this.Load()
     }
   },
   methods: {

@@ -10,9 +10,6 @@ module.exports = {
     zIndex: {
       '-10': '-10',
     },
-    height : {
-      '128': '32rem'
-    },
     minWidth: {
       'fixed-880': '880px',
       'fixed-440': '440px'

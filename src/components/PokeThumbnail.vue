@@ -19,7 +19,7 @@ export default {
     },
     filters: {
         DashRemoval( val ){
-            return val.replaceAll("-", " ")
+            return val ? val.replaceAll("-", " ") : ""
         },
     },
     components: { PokemonType },

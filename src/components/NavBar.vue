@@ -6,9 +6,14 @@
     </div>
     <div class="flex justify-start flex-grow flex-col mt-3 xl:mt-0 lg:mt-0 md:mt-0">
         <input v-model="searchParam" class="xl:w-1/5 md:w-2/5 w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="search" type="text" placeholder="search">
-        <ul v-show="filteredOptions.length > 0" class="absolute overflow-y-scroll lg:w-1/5 md:w-1/3 w-10/12 xl:w-1/5 rounded-md shadow-xl bg-white top-8 xl:top-4 md:top-4 lg:top-4" style="max-height: 450px;">
-            <li class="p-8" v-for="( ele , idx) in filteredOptions" :key="idx">{{ ele.name.replaceAll("-", " ") }}</li>
-        </ul>
+        <div v-show="filteredOptions.length > 0" class="divide-y absolute overflow-y-scroll lg:w-1/5 md:w-1/3 w-10/12 xl:w-1/5 rounded-md shadow-xl bg-white top-8 xl:top-4 md:top-4 lg:top-4" style="max-height: 450px;">
+            <div class="flex items-center p-8 cursor-pointer hover:shadow-outline" v-for="( ele , idx) in filteredOptions" :key="idx"  @click="Goto(ele.nid)" >
+                <div>
+                    <img class="min-h-20 w-20" style="height: 5rem !important" :src="ImageSource( ele.nid )" :alt="`${ele.name} image`">
+                </div>
+                <div class="capitalize">{{ ele.name.replaceAll("-", " ") }}</div>
+            </div>
+        </div>
         <!-- class="xl:w-1/5 lg:w-1/5 md:w-2/5 w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  -->
     </div>
 </nav>
@@ -45,6 +50,20 @@ export default {
         }
     },
     methods: {
+        Goto( nid ){
+            this.searchParam = ""
+            this.$router.push({ name: "Pokemon", params : { nid: nid } })
+        },
+        Pad(number, length = 3) {
+            let str = '' + number;
+            while (str.length < length) {
+                str = '0' + str;
+            }
+            return str;
+        },
+        ImageSource( nid ){
+            return `${process.env.VUE_APP_POKE_ASSET_URL}/sprites/${ nid }.png`
+        },
         handleScroll(){
              if(window.pageYOffset > 0 ){
                 // user is scrolled
