@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Pokemon from '../views/Pokemon.vue'
 
 Vue.use(VueRouter)
 
@@ -19,8 +18,7 @@ const routes = [
     path: '/dex/:nid',
     props: route => ({ nid: route.params.nid }),
     name: 'Pokemon',
-    component: Pokemon
-    // component: () => import(/* webpackChunkName: "about" */ '../views/Pokemon.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Pokemon.vue')
   }
 ]
 
