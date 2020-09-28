@@ -7,15 +7,11 @@ Vue.use(VueRouter)
 const routes = [
   { 
     path: '/', 
-    redirect: { name: 'Home' }
-  },
-  {
-    path: '/dex',
     name: 'Home',
     component: Home,
   },
   {
-    path: '/dex/:nid',
+    path: '/:nid',
     props: route => ({ nid: route.params.nid }),
     name: 'Pokemon',
     component: () => import(/* webpackChunkName: "about" */ '../views/Pokemon.vue')
