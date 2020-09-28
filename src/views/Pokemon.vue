@@ -1,8 +1,13 @@
 <template>
 <div style="overflow:hidden;">
-  <div class="m-auto flex xl:h-screen flex-wrap flex-col sm:flex-row justify-center items-center">
-    <div class="p-4 w-full xl:w-1/3 md:w-2/3 sm:w-full relative">
-        <h1 class="text-2xl lg:text-4xl xl:text-4xl md:text-3xl mb-1 xl:text-center sm:text-center uppercase">{{ pokemon.name | DashRemoval }}</h1>
+  <div class="m-auto flex flex-wrap flex-col sm:flex-row justify-center items-center">
+    <div class="p-4 w-full xl:w-1/3 md:w-2/3 sm:w-full relative border-b-8">
+        <h1 class="text-2xl lg:text-4xl xl:text-4xl md:text-3xl mb-1 xl:text-center sm:text-center uppercase">
+          <span class="visible sm:invisible"> #{{ nid }} </span>
+          {{ pokemon.name | DashRemoval }}
+        </h1>
+
+        <span class="absolute invisible sm:visible" style="left: 20%; font-size: 120px; top: -5%; opacity: 8%;"> #{{ nid }} </span>
 
         <div class="items-center ">
 

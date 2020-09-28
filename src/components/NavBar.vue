@@ -1,6 +1,6 @@
 <template>
 <nav :class="{ 'shadow-xl' : !topScreen }" class="w-full xl:h-20 md:h-20 sm:h-40 fixed top-0 flex xl:items-center md:items-center sm:items-baseline justify-start p-6 bg-white border-b flex-col sm:flex-row" style="z-index: 99;">
-    <div class="flex items-center flex-shrink-0 mr-6">
+    <div class="flex items-center flex-shrink-0 mr-6 cursor-pointer" @click='$router.push({ name: "Home" })'>
         <img class="fill-current h-8 w-8 mr-4" width="54" height="54" src="@/assets/pokeball.png" />
         <span class="font-semibold text-2xl tracking-tight">Pok&eacute;Dex</span>
     </div>

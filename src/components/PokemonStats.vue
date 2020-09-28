@@ -1,12 +1,12 @@
 <template>
 <div id="stats" >
     <div class="flex justify-around m-4">
-        <button v-for="(d, i) in DISPLAYS" :key="i" 
+        <a v-for="(d, i) in DISPLAYS" :key="i" 
             @click="currentDisplay = d" 
-            class="px-3 py-1 font-semibold border-solid border rounded-md"
+            class="px-3 py-1 font-semibold border-solid border rounded-md bg-white cursor-pointer"
             :class="[currentDisplay == d ? 'text-red-400 border-red-400' : 'text-gray-400']"> 
             {{ d }}
-        </button>   
+        </a>   
     </div>
     <div class="relative mx-auto xl:w-3/4" v-for="(ab, i) in base" :key="i">
         <div class="grid grid-cols-6 mb-2 items-center justify-between">
