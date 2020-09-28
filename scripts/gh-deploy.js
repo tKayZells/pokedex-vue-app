@@ -17,7 +17,7 @@ const fs = require("fs");
     await execa("git", ["checkout", "-f", "master"]);
     await execa("git", ["branch", "-D", "gh-pages"]);
     console.log("Removing folder...");
-    await execa("rd", ["-r", folderName]);
+    fs.rmdirSync(folderName);
     console.log("Successfully deployed, check your settings");
   } catch (e) {
     // eslint-disable-next-line no-console

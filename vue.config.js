@@ -1,3 +1,4 @@
 module.exports = {
-    publicPath: '/pokedex-vue-app/'
+    publicPath: '/pokedex-vue-app/',
+    productionSourceMap: false
 }
